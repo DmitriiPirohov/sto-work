@@ -91,7 +91,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto];
 
   const save = () => {
-    SetSaved(true)
+    SetSaved(true);
+    setTimeout(() => {
+      SetSaved(false);
+    }, 3000);
+
     if(!client) {
       if(numberAuto === '') {
         SetArrayOfError(prev => [...prev, 0]);
@@ -110,7 +114,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
           ...clients,
           {
             number: `${clients.length + 1}`,
-            id: `${date}${numberAuto}`,
+            id: `${date}${numberAuto}${clients.length}`,
             Name: name,
             Date: date,
             AutoNumber: numberAuto,
@@ -127,6 +131,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
         SetNumberAuto('');
         SetPhoneNumber('');
         SetAuto('');
+        SetName('');
 
         setTimeout(() => {
           SetSaved(false);

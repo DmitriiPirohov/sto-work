@@ -29,7 +29,7 @@ export const columns: GridColDef[] = [
   {
     field: 'Number',
     headerName: 'Номер телефону',
-    type: 'number',
+    // type: 'number',
     width: 200,
   },
   {
