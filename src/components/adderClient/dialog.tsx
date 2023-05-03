@@ -13,9 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { WorkAdder } from '../workAdder/WorkAdder';
-import { TableForPrice } from '../tableForPrice/TableForPrice'
+import { TableForPrice } from '../tableForPrice/TableForPrice';
+import { Alert } from '../alert/alertDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,8 +82,8 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const [auto, SetAuto] = useState<string>('');
   const [date, SetDate] = useState<string>(`${a.getDate()}.${month}.${a.getFullYear()}`);
   const [arrayOfError, SetArrayOfError] = useState<Array<number>>([]);
-  // const [number, SetNumber] = useState<number>(-1);
   const [work, SetWork] = useState<Array<any>>([]);
+  const [saved, SetSaved] = useState(false);
 
 
   const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто'];
@@ -89,6 +91,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto];
 
   const save = () => {
+    SetSaved(true)
     if(!client) {
       if(numberAuto === '') {
         SetArrayOfError(prev => [...prev, 0]);
@@ -124,7 +127,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
         SetNumberAuto('');
         SetPhoneNumber('');
         SetAuto('');
-        handleClose();
+
+        setTimeout(() => {
+          SetSaved(false);
+          handleClose();
+        }, 3000);
       }
     }
 
@@ -140,7 +147,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
       );
 
       localStorage.setItem('clientsSto', clientJson);
-      handleClose();
+
+      setTimeout(() => {
+        SetSaved(false);
+        handleClose();
+      }, 3000);
     }
   }
 
@@ -193,23 +204,36 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
               <CloseIcon />
             </IconButton>
 
-            <Button
-              autoFocus
-              color="inherit"
-              onClick={() => save()}
-              style={{
-                margin: '0 50px 0 100px',
-                width: 100,
-                border: '1px solid white',
-              }}
-            >
-              save
-            </Button>
+            {
+              !saved
+                ?
+                <Button
+                  autoFocus
+                  color="inherit"
+                  onClick={() => save()}
+                  style={{
+                    margin: '0 50px 0 100px',
+                    width: 100,
+                    border: '1px solid white',
+                  }}
+                >
+                  save
+                </Button>
+                :
+                // <CircularProgress />
+                <>
+                  <CircularProgress color="secondary" style={{ margin: '0 0 0 120px' }} />
+                  <Alert openPoper={saved} mistake={arrayOfError} />
+                </>
+
+            }
+
+
 
             {
               client && client !== undefined && clients !== undefined &&
               <>
-                <WorkAdder SetWork={SetWork} work={work}/>
+                <WorkAdder SetWork={SetWork} work={work} />
 
                 <Typography>
                   Клієнт: {clients.filter((a: { id: string | number; }) => a.id === client)[0].Auto}
@@ -250,7 +274,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
 
         {
           client &&
-          <TableForPrice work={work}/>
+          <TableForPrice work={work} />
         }
       </Dialog>
     </div >
