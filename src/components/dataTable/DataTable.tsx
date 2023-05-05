@@ -4,32 +4,36 @@ import { GridColDef, GridValueGetterParams } from '@material-ui/data-grid';
 import { FullScreenDialog } from '../adderClient/dialog'
 
 export const columns: GridColDef[] = [
-  { field: 'number', headerName: '№', width: 110 },
+  { field: 'number', headerName: '№', width: 90 },
   { field: 'id', headerName: '', width: 110, hide: true },
   {
     field: 'Date',
     headerName: 'Дата',
-    width: 150,
+    width: 110,
   },
   {
     field: 'AutoNumber',
     headerName: 'Номер авто',
-    width: 200,
+    width: 160,
   },
   {
     field: 'Name',
     headerName: 'Ім\'я клієнта',
-    width: 200,
+    width: 170,
   },
   {
     field: 'Auto',
     headerName: 'Назва авто',
-    width: 200,
+    width: 180,
   },
   {
     field: 'Number',
     headerName: 'Номер телефону',
-    // type: 'number',
+    width: 190,
+  },
+  {
+    field: 'VIN',
+    headerName: 'VIN code',
     width: 200,
   },
   {

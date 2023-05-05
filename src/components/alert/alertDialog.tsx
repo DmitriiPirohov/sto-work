@@ -32,18 +32,8 @@ export const Alert: React.FC<MyComponentProps> = ({openPoper, mistake}) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  useEffect(() => {
-    if(openPoper) {
-      // setAnchorEl()
-      // handleClick(event?.currentTarget)
-    }
-  }, [openPoper])
-
   return (
     <div>
-      {/* <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
-        Open Popover
-      </Button> */}
       <Popover
         id={id}
         open={openPoper}
