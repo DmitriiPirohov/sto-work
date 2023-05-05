@@ -44,8 +44,6 @@ interface MyComponentProps {
 }
 
 export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, client }) => {
-  console.log(client);
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -56,6 +54,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const handleClose = () => {
     if(choosenClient !== undefined) {
       choosenClient('');
+      SetneedChangesInId(false);
     }
 
     setOpen(false);
@@ -86,6 +85,8 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const [work, SetWork] = useState<Array<any>>([]);
   const [saved, SetSaved] = useState(false);
   const [vinCode, SetVinCode] = useState<string>('');
+  const [needChangesInId, SetneedChangesInId] = useState(false);
+  console.log(client);
 
 
   const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто', 'vincode'];
@@ -135,6 +136,8 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
         SetPhoneNumber('');
         SetAuto('');
         SetName('');
+        SetVinCode('');
+        SetneedChangesInId(false);
 
         setTimeout(() => {
           SetSaved(false);
@@ -147,6 +150,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
       const choosenClient = clients.filter((a: { id: string | number | undefined; }) => a.id === client);
 
       choosenClient[0].repair = work;
+      choosenClient[0].Name = name;
+      choosenClient[0].AutoNumber = numberAuto;
+      choosenClient[0].Auto = auto;
+      choosenClient[0].Number = phoneNumber;
+      choosenClient[0].vinCode = vinCode;
       choosenClient[0].Summ = `${work.map(a => a.summ).reduce((a, b) => a + b, 0)}грн.`;
 
       const clientJson = JSON.stringify([
@@ -188,7 +196,14 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   useEffect(() => {
     if(client !== undefined && client !== '') {
       handleClickOpen();
-      SetWork(clients.filter((a: string | number | any) => a.id === client)[0].repair)
+      SetWork(clients.filter((a: string | number | any) => a.id === client)[0].repair);
+
+      const forChangeClient = clients.filter((el: { id: string | number | undefined; }) => el.id === client);
+      SetName(forChangeClient[0].Name);
+      SetPhoneNumber(forChangeClient[0].Number);
+      SetAuto(forChangeClient[0].Auto);
+      SetNumberAuto(forChangeClient[0].AutoNumber);
+      SetVinCode(forChangeClient[0].vinCode);
     }
 
     if(client === undefined || client === '') {
@@ -197,16 +212,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   }, [client]);
 
   const changeClient = () => {
-    const forChangeClient = clients.filter((el: { id: string | number | undefined; }) => el.id === client);
-    SetName(forChangeClient[0].Name);
-    SetPhoneNumber(forChangeClient[0].Number);
-    SetAuto(forChangeClient[0].Auto);
-    SetNumberAuto(forChangeClient[0].AutoNumber);
-    SetVinCode(forChangeClient[0].vinCode)
-
-    if(choosenClient !== undefined) {
-      choosenClient('');
-    }
+    SetneedChangesInId(true);
   }
 
   return (
@@ -241,7 +247,6 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
                   save
                 </Button>
                 :
-                // <CircularProgress />
                 <>
                   <CircularProgress color="secondary" style={{ margin: '0 0 0 120px' }} />
                   <Alert openPoper={saved} mistake={arrayOfError} />
@@ -252,7 +257,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
 
 
             {
-              client && client !== undefined && clients !== undefined &&
+              client && client !== undefined && clients !== undefined && !needChangesInId &&
               <>
                 <WorkAdder SetWork={SetWork} work={work} />
 
@@ -278,7 +283,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
 
           <form noValidate autoComplete="on" style={{ padding: 50, display: 'flex', flexDirection: 'column', gap: 15 }}>
             {
-              !client &&
+              (!client || needChangesInId) &&
               inputs.map((input, i) =>
                 <TextField
                   key={i}
@@ -298,7 +303,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
         </List>
 
         {
-          client &&
+          client && !needChangesInId &&
           <TableForPrice work={work} />
         }
       </Dialog>
