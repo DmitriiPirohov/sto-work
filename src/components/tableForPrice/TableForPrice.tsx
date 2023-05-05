@@ -11,29 +11,33 @@ interface MyComponentProps {
   work: Array<objectOfWork>;
 }
 
+const style = {
+  border: '2px solid black'
+}
+
 export const TableForPrice: React.FC<MyComponentProps> = ({ work }) => {
   const a = new Date();
   const month = (+(a.getMonth() + 1)) < 10 ? `0${a.getMonth() + 1}` : (a.getMonth() + 1);
   const day = a.getDate() < 10 ? `0${a.getDate()}` : a.getDate();
   return (
     <>
-      <table style={{ border: '1px solid black', width: '80%', margin: '-50px auto' }}>
-        <thead style={{ border: '1px solid black' }}>
-          <tr style={{ border: '1px solid black' }}>
-            <th style={{ border: '1px solid black', width: '50%' }}>Назва</th>
-            <th style={{ border: '1px solid black', width: 100 }}>Кількість</th>
-            <th style={{ border: '1px solid black', width: 150 }}>Ціна</th>
-            <th style={{ border: '1px solid black' }}>Сума</th>
+      <table style={{ border: '2px solid black', width: '80%', margin: '-50px auto' }}>
+        <thead style={style}>
+          <tr style={style}>
+            <th style={{ border: '2px solid black', width: '50%' }}>Назва</th>
+            <th style={{ border: '2px solid black', width: 100 }}>Кількість</th>
+            <th style={{ border: '2px solid black', width: 150 }}>Ціна</th>
+            <th style={style}>Сума</th>
           </tr>
         </thead>
-        <tbody style={{ border: '1px solid black' }}>
+        <tbody style={style}>
             {
               work.map((a) => (
                 <tr>
-                  <td style={{ border: '1px solid black' }}>{a.nameWork}</td>
-                  <td style={{ border: '1px solid black' }}>{a.countOfWorkOrParts}</td>
-                  <td style={{ border: '1px solid black' }}>{a.price}</td>
-                  <td style={{ border: '1px solid black' }}>{a.summ}</td>
+                  <td style={style}>{a.nameWork}</td>
+                  <td style={style}>{a.countOfWorkOrParts}</td>
+                  <td style={style}>{a.price}</td>
+                  <td style={style}>{a.summ}</td>
                 </tr>
               ))
             }
