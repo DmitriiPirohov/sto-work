@@ -32,7 +32,7 @@ export const columns: GridColDef[] = [
     width: 190,
   },
   {
-    field: 'VIN',
+    field: 'vinCode',
     headerName: 'VIN code',
     width: 200,
   },

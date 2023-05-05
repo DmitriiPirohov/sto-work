@@ -44,6 +44,7 @@ interface MyComponentProps {
 }
 
 export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, client }) => {
+  console.log(client);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -84,11 +85,12 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const [arrayOfError, SetArrayOfError] = useState<Array<number>>([]);
   const [work, SetWork] = useState<Array<any>>([]);
   const [saved, SetSaved] = useState(false);
+  const [vinCode, SetVinCode] = useState<string>('');
 
 
-  const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто'];
-  const inputsValue = [numberAuto, phoneNumber, name, auto];
-  const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto];
+  const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто', 'vincode'];
+  const inputsValue = [numberAuto, phoneNumber, name, auto, vinCode];
+  const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto, SetVinCode];
 
   const save = () => {
     SetSaved(true);
@@ -123,6 +125,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
             Summ: '',
             repair: [],
             parts: {},
+            vinCode: vinCode,
           }
         ]
         );
@@ -193,6 +196,19 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
     }
   }, [client]);
 
+  const changeClient = () => {
+    const forChangeClient = clients.filter((el: { id: string | number | undefined; }) => el.id === client);
+    SetName(forChangeClient[0].Name);
+    SetPhoneNumber(forChangeClient[0].Number);
+    SetAuto(forChangeClient[0].Auto);
+    SetNumberAuto(forChangeClient[0].AutoNumber);
+    SetVinCode(forChangeClient[0].vinCode)
+
+    if(choosenClient !== undefined) {
+      choosenClient('');
+    }
+  }
+
   return (
     <div>
       <Button
@@ -247,7 +263,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
                   </span>
                 </Typography>
 
-                <Button onClick={() => deleteUser()} style={{ margin: '0 0 0 280px', width: 100, color: 'white' }}>
+                <Button onClick={() => changeClient()} style={{ margin: '0 0 0 10px', width: 200, color: 'white', fontSize: 12, border: '1px solid white' }}>
+                  Змінити дані клієнта
+                </Button>
+
+                <Button onClick={() => deleteUser()} style={{ margin: '0 0 0 280px', width: 200, color: 'white', fontSize: 12, border: '1px solid white' }}>
                   видалити кліента
                 </Button>
               </>
