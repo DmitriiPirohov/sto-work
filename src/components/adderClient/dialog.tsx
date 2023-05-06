@@ -86,8 +86,6 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const [saved, SetSaved] = useState(false);
   const [vinCode, SetVinCode] = useState<string>('');
   const [needChangesInId, SetneedChangesInId] = useState(false);
-  console.log(client);
-
 
   const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто', 'vincode'];
   const inputsValue = [numberAuto, phoneNumber, name, auto, vinCode];

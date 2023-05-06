@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -37,6 +37,8 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
   const [price, SetPrice] = useState(0);
   const [switchText, SetSwitchText] = useState('Додати роботу, чи запчастину.');
   const [deleteItem, SetDeleteItem] = useState(true);
+  const [percent, SetPercent] = useState<number>(0);
+  const [totallPrice, SetTotallPrice] = useState<number>(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,7 +50,7 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
 
   const handleSubmit = () => {
     if(deleteItem) {
-      SetWork([...work, { id: `${nameWork}${price}`, nameWork: nameWork, countOfWorkOrParts: countOfWorkOrParts, price: price, summ: (price * countOfWorkOrParts) }]);
+      SetWork([...work, { id: `${nameWork}${price}`, nameWork: nameWork, countOfWorkOrParts: countOfWorkOrParts, price: totallPrice, summ: (totallPrice * countOfWorkOrParts) }]);
     setOpen(false);
     SetPrice(0);
     SetCountOfWorkOrParts(1);
@@ -75,6 +77,12 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
   const deleteItemSubmit = (par: string) => {
     SetWork((prev: any[]) => prev.filter((el: { id: string; }) => el.id !== par))
   }
+
+ useEffect(() => {
+  SetTotallPrice(price + (price * (percent / 100)));
+  // console.log(totallPrice);
+
+ }, [price, percent])
 
   return (
     <div>
@@ -131,9 +139,18 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
                   label="Кількість"
                   type="number"
                   variant="outlined"
-                  style={{ width: 500 }}
+                  style={{ width: 500, margin: '0 0 10px 0' }}
                   value={countOfWorkOrParts}
                   onChange={(e) => SetCountOfWorkOrParts(+e.target.value)}
+                />
+
+                <TextField id="outlined-search"
+                  label="%"
+                  type="number"
+                  variant="outlined"
+                  style={{ width: 500 }}
+                  value={percent}
+                  onChange={(e) => SetPercent(+e.target.value)}
                 />
               </> :
               <>
