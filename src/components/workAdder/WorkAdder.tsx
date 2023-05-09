@@ -50,7 +50,7 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
 
   const handleSubmit = () => {
     if(deleteItem) {
-      SetWork([...work, { id: `${nameWork}${price}`, nameWork: nameWork, countOfWorkOrParts: countOfWorkOrParts, price: totallPrice, summ: (totallPrice * countOfWorkOrParts) }]);
+      SetWork([...work, { id: `${nameWork}${price}`, nameWork: nameWork, countOfWorkOrParts: countOfWorkOrParts, price: totallPrice, summ: (+(totallPrice * countOfWorkOrParts).toFixed(2)) }]);
     setOpen(false);
     SetPrice(0);
     SetCountOfWorkOrParts(1);
