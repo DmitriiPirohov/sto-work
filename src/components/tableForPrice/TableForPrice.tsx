@@ -47,7 +47,7 @@ export const TableForPrice: React.FC<MyComponentProps> = ({ work }) => {
             <td style={{padding: '50px 0 0 0'}}>{day}.{month}.{a.getFullYear()}</td>
             <td></td>
             <td style={{padding: '50px 0 0 0'}}>Загалом до сплати</td>
-            <td style={{padding: '50px 0 0 0', width: 100}}>{work.map(a => a.summ).reduce((a, b) => a + b, 0)}грн.</td>
+            <td style={{padding: '50px 0 0 0', width: 100}}>{(work.map(a => a.summ).reduce((a, b) => a + b, 0)).toFixed(2)}грн.</td>
           </tr>
         </tfoot>
       </table>
