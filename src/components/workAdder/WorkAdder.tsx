@@ -79,7 +79,7 @@ export const WorkAdder: React.FC<MyComponentProps> = ({ SetWork, work }) => {
   }
 
  useEffect(() => {
-  SetTotallPrice(price + (price * (percent / 100)));
+  SetTotallPrice(+(price + (price * (percent / 100))).toFixed(2));
   // console.log(totallPrice);
 
  }, [price, percent])
