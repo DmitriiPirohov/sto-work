@@ -86,10 +86,11 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const [saved, SetSaved] = useState(false);
   const [vinCode, SetVinCode] = useState<string>('');
   const [needChangesInId, SetneedChangesInId] = useState(false);
+  const [speedMetr, SetSpeedMetr] = useState('');
 
-  const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто', 'vincode'];
-  const inputsValue = [numberAuto, phoneNumber, name, auto, vinCode];
-  const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto, SetVinCode];
+  const inputs = ['Номер авто', 'Номер телефону', 'Ім\'я', 'Марка та модель авто', 'vincode', 'km'];
+  const inputsValue = [numberAuto, phoneNumber, name, auto, vinCode, speedMetr];
+  const inputsFunctions = [SetNumberAuto, SetPhoneNumber, SetName, SetAuto, SetVinCode, SetSpeedMetr];
 
   const save = () => {
     SetSaved(true);
@@ -125,6 +126,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
             repair: [],
             parts: {},
             vinCode: vinCode,
+            speedMetr: speedMetr,
           }
         ]
         );
@@ -135,6 +137,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
         SetAuto('');
         SetName('');
         SetVinCode('');
+        SetSpeedMetr('');
         SetneedChangesInId(false);
 
         setTimeout(() => {
@@ -153,6 +156,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
       choosenClient[0].Auto = auto;
       choosenClient[0].Number = phoneNumber;
       choosenClient[0].vinCode = vinCode;
+      choosenClient[0].speedMetr = speedMetr;
       choosenClient[0].Summ = `${work.map(a => a.summ).reduce((a, b) => a + b, 0)}грн.`;
 
       const clientJson = JSON.stringify([
@@ -202,6 +206,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
       SetAuto(forChangeClient[0].Auto);
       SetNumberAuto(forChangeClient[0].AutoNumber);
       SetVinCode(forChangeClient[0].vinCode);
+      SetSpeedMetr(forChangeClient[0].speedMetr);
     }
 
     if(client === undefined || client === '') {
@@ -212,6 +217,8 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
   const changeClient = () => {
     SetneedChangesInId(true);
   }
+
+
 
   return (
     <div>
@@ -302,7 +309,7 @@ export const FullScreenDialog: React.FC<MyComponentProps> = ({ choosenClient, cl
 
         {
           client && !needChangesInId &&
-          <TableForPrice work={work} />
+          <TableForPrice work={work} km={speedMetr} />
         }
       </Dialog>
     </div >
