@@ -59,7 +59,11 @@ export const TableForPrice: React.FC<MyComponentProps> = ({ work, km }) => {
         <div style={{ margin: '20px 0 0 0' }}>Виконав замовлення: СТО VAG BUCHA</div>
         <div>Адреса: м.Буча, Пушкінська 6</div>
         <div>Телефон: +380973458195, +380637623337</div>
-        <div>Картка для розрахунку: 4149609009232325</div>
+        <div>р/р: 4246001002444382</div>
+        <br />
+        <strong>
+          ПРИЗНАЧЕННЯ ПЛАТЕЖУ: ТЕХНІЧНЕ ОБСЛУГОВУВАННЯ АВТОМОБІЛЯ
+        </strong>
       </table>
 
     </>
